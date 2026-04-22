@@ -69,5 +69,5 @@ seed.py
 requirements.txt
 
 ## Author
-Wrapped Media
-Engineer: Daniel Naval
+- Company: Wrapped Media
+- Engineer: Daniel Naval
