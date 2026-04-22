@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}App{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: #2c3e50;
+      color: white;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .page-title {
+      font-size: 18px;
+    }
+
+    /* MAIN LAYOUT */
+    .container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      background: #34495e;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover {
+      background: #1abc9c;
+    }
+
+    .nav-section {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+
+    .sidebar a.active {
+      background: #1abc9c;
+      font-weight: bold;
+    }
+
+    .sidebar i {
+      margin-right: 8px;
+    }
+
+    /* CONTENT */
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    /* FORM STYLING */
+    form input, form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    form button {
+      background: #1abc9c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background: #16a085;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    /* ALERTS */
+    .alert {
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .alert.success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .alert.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    /* 📱 MOBILE */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .sidebar a {
+        margin-bottom: 0;
+        flex: 1;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">🚚 DriverApp</div>
+    <div class="page-title">{% block page_title %}{% endblock %}</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <a href="/dashboard"
+            class="{% if request.path.startswith('/dashboard') %}active{% endif %}">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+
+        <div class="nav-section">Campaigns</div>
+
+        {% for c in campaigns %}
+            <a href="/signup?ref={{ c.id }}">
+                <i class="fa-solid fa-bullhorn"></i>
+                {{ c.name }}
+            </a>
+        {% endfor %}
+
+        <a href="/campaigns/new"
+            class="{% if request.path.startswith('/campaigns') %}active{% endif %}">
+            <i class="fa-solid fa-plus"></i> Add Campaign
+        </a>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+    
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+  </div>
+
+</body>
+</html>

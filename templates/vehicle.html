@@ -1,8 +1,19 @@
-<form method="POST">
+{% extends "base.html" %}
+
+{% block title %}Vehicle{% endblock %}
+{% block page_title %}Vehicle Registration{% endblock %}
+
+{% block content %}
+
+<h2>Vehicle Details</h2>
+
+<form method="POST" action="/vehicle?driver_id={{ driver_id }}&ref={{ ref }}">
   <input name="make" placeholder="Make" required />
   <input name="model" placeholder="Model" required />
   <input name="year" placeholder="Year" required />
   <input name="insurance_policy_number" placeholder="Policy #" required />
   <input type="date" name="insurance_expiry_date" required />
-  <button type="submit">Register Vehicle</button>
+  <button type="submit">Submit</button>
 </form>
+
+{% endblock %}

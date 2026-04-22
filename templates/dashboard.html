@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Campaign Dashboard{% endblock %}
+
+{% block content %}
+
+<h2>Campaign Metrics</h2>
+
+<form method="GET">
+  <input type="date" name="start" value="{{ start_date }}">
+  <input type="date" name="end" value="{{ end_date }}">
+  <button type="submit">Filter</button>
+</form>
+
+<br>
+
+<table>
+  <tr>
+    <th>Campaign</th>
+    <th>Source</th>
+    <th>Total</th>
+    <th>Completed</th>
+    <th>Conversion (%)</th>
+  </tr>
+
+  {% for row in data %}
+  <tr>
+    <td>{{ row.campaign.name }}</td>
+    <td>{{ row.campaign.source }}</td>
+    <td>{{ row.total }}</td>
+    <td>{{ row.completed }}</td>
+    <td>{{ row.conversion_rate }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br/>
+
+<canvas id="chart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    new Chart(document.getElementById("chart"), {
+    type: "line",
+    data: {
+        labels: {{ dates | tojson }},
+        datasets: [{
+        label: "Sign-ups",
+        data: {{ counts | tojson }},
+        fill: false,
+        tension: 0.1
+        }]
+    }
+    });
+</script>
+
+<br/>
+
+<h3>Conversion Rate by Campaign</h3>
+<canvas id="conversionChart"></canvas>
+
+<script>
+    new Chart(document.getElementById("conversionChart"), {
+    type: "bar",
+    data: {
+        labels: {{ campaign_names | tojson }},
+        datasets: [{
+        label: "Conversion Rate (%)",
+        data: {{ conversion_rates | tojson }}
+        }]
+    },
+    options: {
+        scales: {
+        y: {
+            beginAtZero: true,
+            ticks: {
+            callback: function(value) {
+                return value + "%";
+            }
+            }
+        }
+        }
+    }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Create Campaign{% endblock %}
+{% block page_title %}Add Campaign{% endblock %}
+
+{% block content %}
+
+<h2>Create New Campaign</h2>
+
+<form method="POST">
+
+  <input name="name" placeholder="Campaign Name (e.g. summer_launch)" required />
+
+  <select name="source" required>
+    <option value="facebook">Facebook</option>
+    <option value="google">Google</option>
+    <option value="referral">Referral</option>
+  </select>
+
+  <button type="submit">Create Campaign</button>
+
+</form>
+
+{% endblock %}

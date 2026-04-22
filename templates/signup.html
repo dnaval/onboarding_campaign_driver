@@ -1,8 +1,19 @@
-<form method="POST">
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+{% block page_title %}Driver Sign-Up{% endblock %}
+
+{% block content %}
+
+<h2>Driver Information</h2>
+<p><strong>Campaign:</strong> {{ campaign.name if campaign else 'unknown' }}</p>
+<form method="POST" action="/signup?ref={{ request.args.get('ref') }}">
   <input name="full_name" placeholder="Full Name" required />
   <input name="email" placeholder="Email" required />
   <input name="phone" placeholder="Phone" required />
   <input name="license_number" placeholder="License Number" required />
   <input name="license_state" placeholder="State/Province" required />
-  <button type="submit">Sign Up</button>
+  <button type="submit">Continue</button>
 </form>
+
+{% endblock %}
