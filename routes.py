@@ -8,6 +8,9 @@ from datetime import datetime, date
 
 main = Blueprint("main", __name__)
 
+@main.route("/")
+def home():
+    return redirect(url_for("main.dashboard"))
 
 # Dashboard Page
 @main.route("/dashboard")
@@ -133,7 +136,7 @@ def signup():
     campaign = None
     if ref:
         campaign = db.query(Campaign).filter_by(id=ref).first()
-        
+
     return render_template("signup.html", campaign=campaign)
 
 

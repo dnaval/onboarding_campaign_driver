@@ -10,7 +10,7 @@
 ## Run the App (Single Command)
 
 ```bash id="run01"
-pip install -r requirements.txt && python seed.py && python app/app.py
+pip install -r requirements.txt && python seed.py && python app.py
 ```
 
 ---
